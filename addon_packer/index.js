@@ -8,13 +8,13 @@ try {manifest = JSON.parse((await readFile("./BP/manifest.json")).toString('utf-
 mainScriptFileName = manifest?.modules?.find((f) => { return f.type === "script" })?.entry
 
 try {
-    await readdir("../../packs/data/addon_packer/resource_packs");
-    await readdir("../../packs/data/addon_packer/behavior_packs");
+    await readdir("data/addon_packer/resource_packs");
+    await readdir("data/addon_packer/behavior_packs");
 } catch (e) {
     console.error(e);
-    await mkdir("../../packs/data/addon_packer", { recursive: true });
-    await mkdir("../../packs/data/addon_packer/behavior_packs", { recursive: true });
-    await mkdir("../../packs/data/addon_packer/resource_packs", { recursive: true });
+    await mkdir("data/addon_packer", { recursive: true });
+    await mkdir("data/addon_packer/behavior_packs", { recursive: true });
+    await mkdir("data/addon_packer/resource_packs", { recursive: true });
 }
 
 const createdDirectories = {}
