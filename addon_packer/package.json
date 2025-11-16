@@ -1,0 +1,12 @@
+{
+  "name": "regolith-addon-packer",
+  "version": "1.0.0",
+  "description": "Puts multiple packs together.",
+  "license": "MIT",
+  "author": "Alien Edds",
+  "type": "module",
+  "main": "index.js",
+  "dependencies": {
+    "fs": "^0.0.1-security"
+  }
+}

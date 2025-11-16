@@ -1,0 +1,10 @@
+{
+    "description": "Puts multiple packs together.",
+    "filters": [
+        {
+            "exportData": true,
+            "runWith": "nodejs",
+            "script": "index.js"
+        }
+    ]
+}

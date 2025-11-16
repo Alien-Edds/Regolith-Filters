@@ -1,0 +1,10 @@
+{
+    "description": "Tints images.",
+    "filters": [
+        {
+            "exportData": true,
+            "runWith": "nodejs",
+            "script": "index.js"
+        }
+    ]
+}

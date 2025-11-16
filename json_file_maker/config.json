@@ -1,0 +1,10 @@
+{
+    "description": "Makes JSON files from one array.",
+    "filters": [
+        {
+            "exportData": true,
+            "runWith": "nodejs",
+            "script": "index.js"
+        }
+    ]
+}

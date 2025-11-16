@@ -1,0 +1,14 @@
+{
+    "addon_packer": {
+        "url": "github.com/Alien-Edds/regolith-filters"
+    },
+    "image_merge": {
+        "url": "github.com/Alien-Edds/regolith-filters"
+    },
+    "image_tint": {
+        "url": "github.com/Alien-Edds/regolith-filters"
+    },
+    "json_file_maker": {
+        "url": "github.com/Alien-Edds/regolith-filters"
+    }
+}

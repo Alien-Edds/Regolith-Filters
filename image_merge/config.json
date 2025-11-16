@@ -1,0 +1,10 @@
+{
+    "description": "Merges images.",
+    "filters": [
+        {
+            "exportData": true,
+            "runWith": "nodejs",
+            "script": "index.js"
+        }
+    ]
+}
