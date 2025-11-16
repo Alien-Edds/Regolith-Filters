@@ -8,13 +8,12 @@ try {manifest = JSON.parse((await readFile("./BP/manifest.json")).toString('utf-
 mainScriptFileName = manifest?.modules?.find((f) => { return f.type === "script" })?.entry
 
 try {
-    await readdir("data/addon_packer/resource_packs");
-    await readdir("data/addon_packer/behavior_packs");
+    await readdir("../../packs/data/addon_packer/resource_packs", {withFileTypes: true});
+    await readdir("../../packs/data/addon_packer/behavior_packs", {withFileTypes: true});
 } catch (e) {
-    console.error(e);
-    await mkdir("data/addon_packer", { recursive: true });
-    await mkdir("data/addon_packer/behavior_packs", { recursive: true });
-    await mkdir("data/addon_packer/resource_packs", { recursive: true });
+    await mkdir("../../packs/data/addon_packer", { recursive: true });
+    await mkdir("../../packs/data/addon_packer/behavior_packs", { recursive: true });
+    await mkdir("../../packs/data/addon_packer/resource_packs", { recursive: true });
 }
 
 const createdDirectories = {}
@@ -91,7 +90,6 @@ function deepMerge(target, source) {
 }
 
 async function search(path, folderType, folderName) {
-    console.log(`${path}`)
     const dir = await readdir(path, { withFileTypes: true })
     for (const file of dir) {
         const filePath = file.parentPath
@@ -101,11 +99,9 @@ async function search(path, folderType, folderName) {
                 for (const folder of extraFolders) {
                     if (found) continue
                     const split = (filePath + `/${file.name}`).split(`${folderType === "BP" ? "behavior_packs" : "resource_packs"}/${folderName}`)[1]
-                    console.log(split)
                     if (split.startsWith(`/${folder}`)) {
                         found = true
                         await ensureDir(`./${folderType}${split}`)
-                        console.log(`./${folderType}${split}`)
                         await cp(`${filePath}/${file.name}`, `./${folderType}${split}/${folderName}`, { recursive: true })
                         continue
                     }
@@ -172,10 +168,9 @@ async function search(path, folderType, folderName) {
             let oldJson = await getFileData(`${copyPath}/${file.name}`)
             if (oldJson) oldJson = JSON.parse(oldJson.toString('utf-8'))
             const newJson = JSON.parse((await getFileData(`${filePath}/${file.name}`)).toString('utf-8'))
-            if (oldJson) {
-                console.log("old json")
+            if (oldJson !== undefined) {
                 await writeFile(`${copyPath}/${file.name}`, JSON.stringify(deepMerge(oldJson, newJson)))
-            } else await writeFile(`${copyPath}/${file.name}`, JSON.stringify(newJson, 'utf-8'))
+            } else {await writeFile(`${copyPath}/${file.name}`, JSON.stringify(newJson, 'utf-8'))}
         } else {
             await copyFile(`${filePath}/${file.name}`, `${copyPath}/${file.name}`)
         }
