@@ -1,6 +1,6 @@
 {
   "name": "regolith-addon-packer",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Puts multiple packs together.",
   "license": "MIT",
   "author": "Alien Edds",
