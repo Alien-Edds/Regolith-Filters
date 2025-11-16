@@ -1,14 +1,14 @@
 {
     "addon_packer": {
-        "url": "https://github.com/Alien-Edds/Regolith-Filters"
+        "url": "github.com/Alien-Edds/Regolith-Filters"
     },
     "image_merge": {
-        "url": "https://github.com/Alien-Edds/Regolith-Filters"
+        "url": "github.com/Alien-Edds/Regolith-Filters"
     },
     "image_tint": {
-        "url": "https://github.com/Alien-Edds/Regolith-Filters"
+        "url": "github.com/Alien-Edds/Regolith-Filters"
     },
     "json_file_maker": {
-        "url": "https://github.com/Alien-Edds/Regolith-Filters"
+        "url": "github.com/Alien-Edds/Regolith-Filters"
     }
 }
