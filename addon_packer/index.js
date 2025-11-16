@@ -3,8 +3,19 @@ import { readFile, readdir, writeFile, appendFile, copyFile, cp, mkdir } from "f
 let writtenFiles = 0
 
 let mainScriptFileName = undefined
-const manifest = JSON.parse((await readFile("./BP/manifest.json")).toString('utf-8'))
-mainScriptFileName = manifest.modules?.find((f) => { return f.type === "script" })?.entry
+let manifest = undefined
+try {manifest = JSON.parse((await readFile("./BP/manifest.json")).toString('utf-8'))} catch {}
+mainScriptFileName = manifest?.modules?.find((f) => { return f.type === "script" })?.entry
+
+try {
+    await readdir("../../packs/data/addon_packer/resource_packs");
+    await readdir("../../packs/data/addon_packer/behavior_packs");
+} catch (e) {
+    console.error(e);
+    await mkdir("../../packs/data/addon_packer", { recursive: true });
+    await mkdir("../../packs/data/addon_packer/behavior_packs", { recursive: true });
+    await mkdir("../../packs/data/addon_packer/resource_packs", { recursive: true });
+}
 
 const createdDirectories = {}
 
