@@ -1,10 +1,11 @@
 import { readFile, readdir, writeFile, appendFile, copyFile, cp, mkdir } from "fs/promises"
+import stripJsonComments from "strip-json-comments"
 
 let writtenFiles = 0
 
 let mainScriptFileName = undefined
 let manifest = undefined
-try {manifest = JSON.parse((await readFile("./BP/manifest.json")).toString('utf-8'))} catch {}
+try {manifest = JSON.parse(stripJsonComments((await readFile("./BP/manifest.json")).toString('utf-8')))} catch {}
 mainScriptFileName = manifest?.modules?.find((f) => { return f.type === "script" })?.entry
 
 try {
@@ -114,7 +115,7 @@ async function search(path, folderType, folderName) {
                 let manifestFileData = {}
                 try {
                     const parsedFile = await readFile(`${filePath}/./manifest.json`);
-                    manifestFileData = JSON.parse(parsedFile.toString('utf-8'));
+                    manifestFileData = JSON.parse(stripJsonComments( parsedFile.toString('utf-8')));
                 } catch (e) {
                     console.error(e);
                 }
@@ -166,8 +167,8 @@ async function search(path, folderType, folderName) {
             }
         } else if (file.name.endsWith(".json")) {
             let oldJson = await getFileData(`${copyPath}/${file.name}`)
-            if (oldJson) oldJson = JSON.parse(oldJson.toString('utf-8'))
-            const newJson = JSON.parse((await getFileData(`${filePath}/${file.name}`)).toString('utf-8'))
+            if (oldJson) oldJson = JSON.parse(stripJsonComments(oldJson.toString('utf-8')))
+            const newJson = JSON.parse(stripJsonComments((await getFileData(`${filePath}/${file.name}`)).toString('utf-8')))
             if (oldJson !== undefined) {
                 await writeFile(`${copyPath}/${file.name}`, JSON.stringify(deepMerge(oldJson, newJson)))
             } else {await writeFile(`${copyPath}/${file.name}`, JSON.stringify(newJson, 'utf-8'))}

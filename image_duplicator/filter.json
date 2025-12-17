@@ -1,0 +1,10 @@
+{
+    "description": "Duplicates images as many times as needed.",
+    "filters": [
+        {
+            "exportData": true,
+            "runWith": "nodejs",
+            "script": "index.js"
+        }
+    ]
+}

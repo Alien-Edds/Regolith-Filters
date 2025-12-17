@@ -1,4 +1,4 @@
-import { readFile, readdir, writeFile, unlink } from "fs/promises"
+import { readFile, readdir, writeFile, unlink, copyFile } from "fs/promises"
 
 let writtenFiles = 0
 
@@ -10,23 +10,24 @@ async function search(path) {
             await search(`${file.parentPath}/${file.name}`)
             continue
         }
-        if (!file.name.endsWith(".files.json")) continue
+        if (!file.name.endsWith(".png")) continue
         /**
-        * @type {{files: {file_name: string, data: Object}[]}}
+        * @type {{files: string[]} | undefined}
         */
         let fileData = {}
         try {
-            const parsedFile = await readFile(`${filePath}/${file.name}`);
+            const parsedFile = await readFile(`${filePath}/${file.name.replace(".png", "")}.duplicate.json`);
             fileData = JSON.parse(parsedFile.toString('utf-8'));
         } catch (e) {
             console.error(e);
         }
-        await unlink(`${filePath}/${file.name}`, (err) => {
+        if (!fileData) continue
+        await unlink(`${filePath}/${file.name.replace(".png", "")}.duplicate.json`, (err) => {
             if (err) throw err
         })
         for (const newFile of fileData.files) {
             try {
-                await writeFile(`${filePath}/${newFile.file_name}.json`, JSON.stringify(newFile.data))
+                await copyFile(`${filePath}/${file.name}`, `${filePath}/${newFile}.png`)
                 writtenFiles++
             } catch (e) { console.error(e) }
         }
