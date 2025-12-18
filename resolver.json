@@ -4,6 +4,9 @@
         "addon_packer": {
             "url": "github.com/Alien-Edds/Regolith-Filters"
         },
+	"image_duplicator": {
+            "url": "github.com/Alien-Edds/Regolith-Filters"
+        },
         "image_merge": {
             "url": "github.com/Alien-Edds/Regolith-Filters"
         },

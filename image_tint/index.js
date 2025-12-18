@@ -1,6 +1,7 @@
 import { readFile, readdir, unlink } from "fs/promises"
 import { createWriteStream } from "fs";
 import { createCanvas, loadImage } from "canvas"
+import stripJsonComments from "strip-json-comments";
 
 const colors = [
     { "hex": "#ff0000", "name": "red" },
@@ -47,7 +48,7 @@ async function search(path) {
         let fileData = {}
         try {
             const parsedFile = await readFile(`${file.parentPath}/${file.name}`);
-            fileData = JSON.parse(parsedFile.toString('utf-8'));
+            fileData = JSON.parse(stripJsonComments(parsedFile.toString('utf-8')));
         } catch (e) {
             console.error(e);
         }

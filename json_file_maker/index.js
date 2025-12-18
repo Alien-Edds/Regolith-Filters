@@ -1,4 +1,5 @@
 import { readFile, readdir, writeFile, unlink } from "fs/promises"
+import stripJsonComments from "strip-json-comments"
 
 let writtenFiles = 0
 
@@ -17,7 +18,7 @@ async function search(path) {
         let fileData = {}
         try {
             const parsedFile = await readFile(`${filePath}/${file.name}`);
-            fileData = JSON.parse(parsedFile.toString('utf-8'));
+            fileData = JSON.parse(stripJsonComments(parsedFile.toString('utf-8')));
         } catch (e) {
             console.error(e);
         }
