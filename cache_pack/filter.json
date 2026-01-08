@@ -1,0 +1,10 @@
+{
+    "description": "Caches the packs to be able to load them in the future.",
+    "filters": [
+        {
+            "exportData": true,
+            "runWith": "nodejs",
+            "script": "index.js"
+        }
+    ]
+}
