@@ -1,5 +1,4 @@
-import { read } from "fs";
-import { cp, readdir, mkdir, rm } from "fs/promises";
+import { cp, readdir, mkdir, rm, copyFile } from "fs/promises";
 /**
  * @type {{load?: boolean, excludeItems?: string[], deleteFolders?: boolean}|undefined}
  */
@@ -14,15 +13,40 @@ try {
 if (settings?.load) {
     if (settings?.deleteFolders) {
         console.info("Deleting existing BP and RP folders")
-        await rm("./BP", { recursive: true })
-        await rm("./RP", { recursive: true })
+        if (settings?.excludeItems) {
+            await mkdir("./saved", {recursive: true})
+            await mkdir("./saved/BP", {recursive: true})
+            await mkdir("./saved/RP", {recursive: true})
+            for (const item of settings.excludeItems) {
+                try {
+                    await cp(`./${item}`, `./saved/${item}`, {recursive: true})
+                    console.info(`Saved excluded item ${item}`)
+                } catch { }
+            }
+        }
+        await rm("./BP", {
+            recursive: true, filter: (src) => {
+                if (settings?.excludeItems) {
+                    for (const folder of settings.excludeItems) if (src.replaceAll(`\\`, "/").includes(folder)) { console.info(`excluded item ${folder}`); return false; }
+                }
+                return true
+            }
+        })
+        await rm("./RP", {
+            recursive: true, filter: (src) => {
+                if (settings?.excludeItems) {
+                    for (const folder of settings.excludeItems) if (src.replaceAll(`\\`, "/").includes(folder)) { console.info(`excluded item ${folder}`); return false; }
+                }
+                return true
+            }
+        })
     }
     try {
         await readdir("../cache/filters/cache_pack/BP")
         await cp("../cache/filters/cache_pack/BP", "./BP", {
             recursive: true, filter: (src) => {
                 if (settings?.excludeItems) {
-                    for (const folder of settings.excludeItems) if (src.replaceAll(`\\`, "/").includes(folder)) {console.info(`excluded item ${folder}`); return false;}
+                    for (const folder of settings.excludeItems) if (src.replaceAll(`\\`, "/").includes(folder)) { console.info(`excluded item ${folder}`); return false; }
                 }
                 return true
             }
@@ -36,7 +60,7 @@ if (settings?.load) {
         await cp("../cache/filters/cache_pack/RP", "./RP", {
             recursive: true, filter: (src) => {
                 if (settings?.excludeItems) {
-                    for (const folder of settings.excludeItems) if (src.replaceAll(`\\`, "/").includes(folder)) {console.info(`excluded item ${folder}`); return false;}
+                    for (const folder of settings.excludeItems) if (src.replaceAll(`\\`, "/").includes(folder)) { console.info(`excluded item ${folder}`); return false; }
                 }
                 return true
             }
@@ -45,11 +69,19 @@ if (settings?.load) {
     } catch {
         console.info("No RP to load")
     }
+    if (settings?.excludeItems) {
+        for (const item of settings.excludeItems) {
+            try {
+                await cp(`./saved/${item}`, `./${item}`, {recursive: true})
+                console.info(`Restored excluded item ${item}`)
+            } catch { }
+        }
+    }
 } else {
     await cp("./BP", "../cache/filters/cache_pack/BP", {
         recursive: true, filter: (src) => {
             if (settings?.excludeItems) {
-                for (const folder of settings.excludeItems) if (src.replaceAll(`\\`, "/").includes(folder)) {console.info(`excluded item ${folder}`); return false;}
+                for (const folder of settings.excludeItems) if (src.replaceAll(`\\`, "/").includes(folder)) { console.info(`excluded item ${folder}`); return false; }
             }
             return true
         }
@@ -57,7 +89,7 @@ if (settings?.load) {
     await cp("./RP", "../cache/filters/cache_pack/RP", {
         recursive: true, filter: (src) => {
             if (settings?.excludeItems) {
-                for (const folder of settings.excludeItems) if (src.replaceAll(`\\`, "/").includes(folder)) {console.info(`excluded item ${folder}`); return false;}
+                for (const folder of settings.excludeItems) if (src.replaceAll(`\\`, "/").includes(folder)) { console.info(`excluded item ${folder}`); return false; }
             }
             return true
         }
