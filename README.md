@@ -75,8 +75,9 @@ This is the type that can be used:
 ```
 
 
-## End
+### Lang Merger
+This filter allows you to merge many lang files together into one, allowing you to organize your lang files.
 
-With these, these are the first filters that i have made ever. And you can do quite a bit with these, like many color variations seen in Winter Additions.
+Do this by simply making a folder in `RP/texts` with the same name as a lang file excluding the `.lang`.
 
-Hope y'all enjoy these. :3
+Then, put lang files in that folder, or in another folder in that folder.
