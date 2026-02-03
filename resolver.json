@@ -18,6 +18,9 @@
         },
         "json_file_maker": {
             "url": "github.com/Alien-Edds/Regolith-Filters"
+        },
+	"lang_merger": {
+            "url": "github.com/Alien-Edds/Regolith-Filters"
         }
     }
 }

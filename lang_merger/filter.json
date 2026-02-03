@@ -1,0 +1,10 @@
+{
+    "description": "Merges lang files together.",
+    "filters": [
+        {
+            "exportData": true,
+            "runWith": "nodejs",
+            "script": "index.js"
+        }
+    ]
+}
